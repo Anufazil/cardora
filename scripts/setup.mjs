@@ -1,0 +1,22 @@
+import { randomBytes } from "node:crypto";
+import { readFile, writeFile, access } from "node:fs/promises";
+try {
+  await access(".env");
+  console.log("Existing .env preserved.");
+} catch {
+  const template = await readFile(".env.example", "utf8");
+  await writeFile(
+    ".env",
+    template
+      .replace(
+        "replace-with-at-least-32-random-bytes",
+        randomBytes(48).toString("hex"),
+      )
+      .replace(
+        "replace-with-another-32-random-bytes",
+        randomBytes(48).toString("hex"),
+      ),
+    { mode: 0o600 },
+  );
+  console.log("Created local .env with random secrets.");
+}
