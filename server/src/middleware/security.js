@@ -117,7 +117,8 @@ export function errorHandler(err, req, res, next) {
         error: { message: "That email or profile address is already in use." },
       });
   const status = err.status || (err.code === "LIMIT_FILE_SIZE" ? 413 : 500);
-  if (status >= 500) console.error("Request failed:", err.name); // Never log tokens, credentials or request bodies.
+  if (status >= 500)
+  console.error("Request failed:", err.name, err.code, err.command, err.responseCode, err.message);
   res
     .status(status)
     .json({
