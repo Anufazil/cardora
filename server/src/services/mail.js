@@ -37,6 +37,9 @@ export async function sendAction(user, purpose) {
         port: Number(process.env.SMTP_PORT || 587),
         secure: Number(process.env.SMTP_PORT) === 465,
         auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASSWORD },
+        connectionTimeout: 8000,
+        greetingTimeout: 8000,
+        socketTimeout: 10000,
       });
       await transport.sendMail(mail);
     }
